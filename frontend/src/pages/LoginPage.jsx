@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getErrorMessage, loginStudent, setToken } from "../services/authService";
+import {
+  getErrorMessage,
+  getToken,
+  loginStudent,
+  setToken,
+} from "../services/authService";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -10,6 +15,12 @@ const LoginPage = () => {
   });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (getToken()) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [navigate]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -24,7 +35,7 @@ const LoginPage = () => {
     try {
       const data = await loginStudent(formData);
       setToken(data.token);
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     } catch (apiError) {
       setError(getErrorMessage(apiError));
     } finally {
