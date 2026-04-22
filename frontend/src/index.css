@@ -37,9 +37,84 @@ input {
   min-height: 100vh;
 }
 
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 18px 18px 0;
+}
+
+.app-header__inner {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(16, 35, 61, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 18px 40px rgba(39, 64, 91, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.brand-link {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #10233d;
+  text-decoration: none;
+}
+
+.brand-link:hover {
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  color: #29415f;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-link:hover {
+  text-decoration: none;
+  background: rgba(13, 109, 119, 0.08);
+}
+
+.nav-link.active {
+  background: linear-gradient(135deg, #0d6d77, #1294a3);
+  color: #ffffff;
+}
+
+.nav-link--button {
+  font: inherit;
+  background: #ffffff;
+  cursor: pointer;
+  border: 1px solid rgba(16, 35, 61, 0.12);
+}
+
+.nav-link--button:hover {
+  background: rgba(201, 100, 19, 0.08);
+}
+
 .page-shell {
   min-height: 100vh;
-  padding: 32px 18px;
+  padding: 24px 18px 32px;
 }
 
 .auth-panel,
@@ -202,6 +277,15 @@ input:focus {
 }
 
 @media (max-width: 900px) {
+  .app-header__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-links {
+    width: 100%;
+  }
+
   .auth-panel,
   .dashboard-grid {
     grid-template-columns: 1fr;
