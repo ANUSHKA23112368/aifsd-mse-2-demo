@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import { getJwtWarning } from "./config/auth.js";
 import studentRoutes from "./routes/studentRoutes.js";
 
 dotenv.config();
@@ -67,6 +68,12 @@ app.use((error, req, res, next) => {
 
 connectDB()
   .then(() => {
+    const jwtWarning = getJwtWarning();
+
+    if (jwtWarning) {
+      console.warn(jwtWarning);
+    }
+
     app.listen(port, () => {
       console.log(`Server running on port ${port}.`);
     });

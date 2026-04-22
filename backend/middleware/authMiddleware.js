@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import Student from "../models/Student.js";
+import { JWT_SECRET } from "../config/auth.js";
 
 const authMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -11,7 +12,7 @@ const authMiddleware = async (req, res, next) => {
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
     const student = await Student.findById(decoded.id).select("-password");
 
     if (!student) {

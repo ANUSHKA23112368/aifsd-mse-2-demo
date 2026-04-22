@@ -3,11 +3,12 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Student from "../models/Student.js";
 import authMiddleware from "../middleware/authMiddleware.js";
+import { JWT_SECRET } from "../config/auth.js";
 
 const router = express.Router();
 
 const createToken = (studentId) =>
-  jwt.sign({ id: studentId }, process.env.JWT_SECRET, { expiresIn: "1d" });
+  jwt.sign({ id: studentId }, JWT_SECRET, { expiresIn: "1d" });
 
 const buildStudentPayload = (student) => ({
   id: student._id,
