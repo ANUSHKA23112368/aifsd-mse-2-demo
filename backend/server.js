@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import { getJwtWarning } from "./config/auth.js";
-import studentRoutes from "./routes/studentRoutes.js";
+import patientRoutes from "./routes/patientRoutes.js";
 
 dotenv.config();
 
@@ -67,10 +67,10 @@ app.use(
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ message: "Student Authentication API is running." });
+  res.json({ message: "Patient Authentication API is running." });
 });
 
-app.use("/api", studentRoutes);
+app.use("/api", patientRoutes);
 
 app.use((error, req, res, next) => {
   if (error.message === "Origin not allowed by CORS.") {

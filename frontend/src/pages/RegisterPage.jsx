@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   getErrorMessage,
   getToken,
-  registerStudent,
+  registerPatient,
   setToken,
 } from "../services/authService";
 
@@ -13,7 +13,7 @@ const RegisterPage = () => {
     name: "",
     email: "",
     password: "",
-    course: "",
+    condition: "",
   });
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -37,7 +37,7 @@ const RegisterPage = () => {
     setIsLoading(true);
 
     try {
-      const data = await registerStudent(formData);
+      const data = await registerPatient(formData);
       setToken(data.token);
       setMessage("Registration successful. Redirecting to dashboard...");
       navigate("/dashboard", { replace: true });
@@ -53,9 +53,9 @@ const RegisterPage = () => {
       <section className="auth-panel">
         <div className="brand-block">
           <p className="eyebrow">Create Account</p>
-          <h1>Register as a Student</h1>
+          <h1>Register as a Patient</h1>
           <p className="support-text">
-            Fill in your details to create an account and start using the dashboard.
+            Fill in your details to create a patient account and access the dashboard.
           </p>
         </div>
 
@@ -98,12 +98,12 @@ const RegisterPage = () => {
           </label>
 
           <label>
-            <span>Course</span>
+            <span>Medical Condition</span>
             <input
               type="text"
-              name="course"
-              placeholder="Enter your course"
-              value={formData.course}
+              name="condition"
+              placeholder="Enter the patient's condition"
+              value={formData.condition}
               onChange={handleChange}
               required
             />

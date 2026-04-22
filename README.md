@@ -1,14 +1,14 @@
-# Student Authentication System
+# Patient Authentication System
 
-A MERN stack project that allows students to register, log in, access a protected dashboard, update their password, change course details, and log out securely.
+A MERN stack project that allows patients to register, log in, access a protected dashboard, update their password, update medical condition details, and log out securely.
 
 ## Features
 
-- Student registration with duplicate email protection
+- Patient registration with duplicate email protection
 - JWT-based login authentication
 - Protected dashboard route
 - Password update with old password verification
-- Course update for logged-in students
+- Medical condition update for logged-in patients
 - Axios-powered API integration
 - Responsive UI with custom CSS
 - Deployment-ready Render and Vercel configuration
@@ -67,7 +67,7 @@ The frontend runs on `http://localhost:5173`.
 - `POST /api/login`
 - `GET /api/profile`
 - `PUT /api/update-password`
-- `PUT /api/update-course`
+- `PUT /api/update-condition`
 
 ## Deployment
 

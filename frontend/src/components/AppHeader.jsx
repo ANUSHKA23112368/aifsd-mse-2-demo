@@ -15,7 +15,7 @@ const AppHeader = () => {
     <header className="app-header">
       <div className="app-header__inner">
         <NavLink to="/" className="brand-link">
-          Student Auth System
+          Patient Auth System
         </NavLink>
 
         <nav className="nav-links" aria-label="Main navigation">

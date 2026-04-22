@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-const TOKEN_KEY = "studentAuthToken";
+const TOKEN_KEY = "patientAuthToken";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -27,12 +27,12 @@ export const clearToken = () => {
   localStorage.removeItem(TOKEN_KEY);
 };
 
-export const registerStudent = async (payload) => {
+export const registerPatient = async (payload) => {
   const response = await api.post("/register", payload);
   return response.data;
 };
 
-export const loginStudent = async (payload) => {
+export const loginPatient = async (payload) => {
   const response = await api.post("/login", payload);
   return response.data;
 };
@@ -47,8 +47,8 @@ export const updatePassword = async (payload) => {
   return response.data;
 };
 
-export const updateCourse = async (payload) => {
-  const response = await api.put("/update-course", payload);
+export const updateCondition = async (payload) => {
+  const response = await api.put("/update-condition", payload);
   return response.data;
 };
 

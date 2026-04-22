@@ -1,49 +1,49 @@
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import Student from "../models/Student.js";
+import Patient from "../models/Patient.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 import { JWT_SECRET } from "../config/auth.js";
 
 const router = express.Router();
 
-const createToken = (studentId) =>
-  jwt.sign({ id: studentId }, JWT_SECRET, { expiresIn: "1d" });
+const createToken = (patientId) =>
+  jwt.sign({ id: patientId }, JWT_SECRET, { expiresIn: "1d" });
 
-const buildStudentPayload = (student) => ({
-  id: student._id,
-  name: student.name,
-  email: student.email,
-  course: student.course,
+const buildPatientPayload = (patient) => ({
+  id: patient._id,
+  name: patient.name,
+  email: patient.email,
+  condition: patient.condition,
 });
 
 router.post("/register", async (req, res) => {
   try {
-    const { name, email, password, course } = req.body;
+    const { name, email, password, condition } = req.body;
 
-    if (!name || !email || !password || !course) {
+    if (!name || !email || !password || !condition) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
-    const existingStudent = await Student.findOne({ email: email.toLowerCase() });
+    const existingPatient = await Patient.findOne({ email: email.toLowerCase() });
 
-    if (existingStudent) {
+    if (existingPatient) {
       return res.status(409).json({ message: "Email is already registered." });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const student = await Student.create({
+    const patient = await Patient.create({
       name,
       email: email.toLowerCase(),
       password: hashedPassword,
-      course,
+      condition,
     });
 
     return res.status(201).json({
-      message: "Student registered successfully.",
-      token: createToken(student._id),
-      student: buildStudentPayload(student),
+      message: "Patient registered successfully.",
+      token: createToken(patient._id),
+      patient: buildPatientPayload(patient),
     });
   } catch (error) {
     return res.status(500).json({ message: "Registration failed.", error: error.message });
@@ -58,13 +58,13 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Email and password are required." });
     }
 
-    const student = await Student.findOne({ email: email.toLowerCase() }).select("+password");
+    const patient = await Patient.findOne({ email: email.toLowerCase() }).select("+password");
 
-    if (!student) {
+    if (!patient) {
       return res.status(401).json({ message: "Invalid login credentials." });
     }
 
-    const isPasswordValid = await bcrypt.compare(password, student.password);
+    const isPasswordValid = await bcrypt.compare(password, patient.password);
 
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid login credentials." });
@@ -72,8 +72,8 @@ router.post("/login", async (req, res) => {
 
     return res.status(200).json({
       message: "Login successful.",
-      token: createToken(student._id),
-      student: buildStudentPayload(student),
+      token: createToken(patient._id),
+      patient: buildPatientPayload(patient),
     });
   } catch (error) {
     return res.status(500).json({ message: "Login failed.", error: error.message });
@@ -81,7 +81,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/profile", authMiddleware, async (req, res) => {
-  return res.status(200).json({ student: buildStudentPayload(req.student) });
+  return res.status(200).json({ patient: buildPatientPayload(req.patient) });
 });
 
 router.put("/update-password", authMiddleware, async (req, res) => {
@@ -92,20 +92,20 @@ router.put("/update-password", authMiddleware, async (req, res) => {
       return res.status(400).json({ message: "Old password and new password are required." });
     }
 
-    const student = await Student.findById(req.student._id).select("+password");
+    const patient = await Patient.findById(req.patient._id).select("+password");
 
-    if (!student) {
-      return res.status(404).json({ message: "Student not found." });
+    if (!patient) {
+      return res.status(404).json({ message: "Patient not found." });
     }
 
-    const isOldPasswordValid = await bcrypt.compare(oldPassword, student.password);
+    const isOldPasswordValid = await bcrypt.compare(oldPassword, patient.password);
 
     if (!isOldPasswordValid) {
       return res.status(400).json({ message: "Old password is incorrect." });
     }
 
-    student.password = await bcrypt.hash(newPassword, 10);
-    await student.save();
+    patient.password = await bcrypt.hash(newPassword, 10);
+    await patient.save();
 
     return res.status(200).json({ message: "Password updated successfully." });
   } catch (error) {
@@ -113,30 +113,30 @@ router.put("/update-password", authMiddleware, async (req, res) => {
   }
 });
 
-router.put("/update-course", authMiddleware, async (req, res) => {
+router.put("/update-condition", authMiddleware, async (req, res) => {
   try {
-    const { course } = req.body;
+    const { condition } = req.body;
 
-    if (!course) {
-      return res.status(400).json({ message: "Course is required." });
+    if (!condition) {
+      return res.status(400).json({ message: "Condition is required." });
     }
 
-    const student = await Student.findByIdAndUpdate(
-      req.student._id,
-      { course },
+    const patient = await Patient.findByIdAndUpdate(
+      req.patient._id,
+      { condition },
       { new: true, runValidators: true }
     ).select("-password");
 
-    if (!student) {
-      return res.status(404).json({ message: "Student not found." });
+    if (!patient) {
+      return res.status(404).json({ message: "Patient not found." });
     }
 
     return res.status(200).json({
-      message: "Course updated successfully.",
-      student: buildStudentPayload(student),
+      message: "Condition updated successfully.",
+      patient: buildPatientPayload(patient),
     });
   } catch (error) {
-    return res.status(500).json({ message: "Course update failed.", error: error.message });
+    return res.status(500).json({ message: "Condition update failed.", error: error.message });
   }
 });
 

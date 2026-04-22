@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const studentSchema = new mongoose.Schema(
+const patientSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -19,7 +19,7 @@ const studentSchema = new mongoose.Schema(
       required: true,
       select: false,
     },
-    course: {
+    condition: {
       type: String,
       required: true,
       trim: true,
@@ -30,6 +30,6 @@ const studentSchema = new mongoose.Schema(
   }
 );
 
-const Student = mongoose.model("Student", studentSchema);
+const Patient = mongoose.model("Patient", patientSchema);
 
-export default Student;
+export default Patient;

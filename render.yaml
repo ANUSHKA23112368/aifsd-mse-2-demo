@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: student-auth-api
+    name: patient-auth-api
     env: node
     rootDir: backend
     buildCommand: npm install
@@ -14,7 +14,7 @@ services:
         sync: false
 
   - type: static
-    name: student-auth-frontend
+    name: patient-auth-frontend
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist

@@ -4,31 +4,31 @@ import {
   clearToken,
   fetchProfile,
   getErrorMessage,
-  updateCourse,
+  updateCondition,
   updatePassword,
 } from "../services/authService";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
-  const [student, setStudent] = useState(null);
+  const [patient, setPatient] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [pageError, setPageError] = useState("");
   const [passwordForm, setPasswordForm] = useState({
     oldPassword: "",
     newPassword: "",
   });
-  const [courseForm, setCourseForm] = useState({
-    course: "",
+  const [conditionForm, setConditionForm] = useState({
+    condition: "",
   });
   const [passwordMessage, setPasswordMessage] = useState("");
-  const [courseMessage, setCourseMessage] = useState("");
+  const [conditionMessage, setConditionMessage] = useState("");
 
   useEffect(() => {
     const loadProfile = async () => {
       try {
         const data = await fetchProfile();
-        setStudent(data.student);
-        setCourseForm({ course: data.student.course });
+        setPatient(data.patient);
+        setConditionForm({ condition: data.patient.condition });
       } catch (apiError) {
         setPageError(getErrorMessage(apiError));
 
@@ -49,9 +49,9 @@ const DashboardPage = () => {
     setPasswordForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCourseChange = (event) => {
+  const handleConditionChange = (event) => {
     const { name, value } = event.target;
-    setCourseForm((prev) => ({ ...prev, [name]: value }));
+    setConditionForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePasswordSubmit = async (event) => {
@@ -68,15 +68,15 @@ const DashboardPage = () => {
     }
   };
 
-  const handleCourseSubmit = async (event) => {
+  const handleConditionSubmit = async (event) => {
     event.preventDefault();
-    setCourseMessage("");
+    setConditionMessage("");
     setPageError("");
 
     try {
-      const data = await updateCourse(courseForm);
-      setStudent(data.student);
-      setCourseMessage(data.message);
+      const data = await updateCondition(conditionForm);
+      setPatient(data.patient);
+      setConditionMessage(data.message);
     } catch (apiError) {
       setPageError(getErrorMessage(apiError));
     }
@@ -92,7 +92,7 @@ const DashboardPage = () => {
       <main className="page-shell">
         <section className="dashboard-shell">
           <div className="dashboard-card">
-            <p>Loading dashboard...</p>
+            <p>Loading patient dashboard...</p>
           </div>
         </section>
       </main>
@@ -105,10 +105,10 @@ const DashboardPage = () => {
         <div className="dashboard-header">
           <div>
             <p className="eyebrow">Protected Dashboard</p>
-            <h1>Welcome, {student?.name}</h1>
+            <h1>Welcome, {patient?.name}</h1>
             <p className="support-text">
-              View your details, update your password, change your course, and logout
-              securely.
+              View patient details, update your password, update the medical
+              condition, and logout securely.
             </p>
           </div>
           <button type="button" className="secondary-btn" onClick={handleLogout}>
@@ -120,18 +120,18 @@ const DashboardPage = () => {
 
         <div className="dashboard-grid">
           <article className="dashboard-card">
-            <h2>Student Details</h2>
+            <h2>Patient Details</h2>
             <div className="detail-row">
               <span>Name</span>
-              <strong>{student?.name}</strong>
+              <strong>{patient?.name}</strong>
             </div>
             <div className="detail-row">
               <span>Email</span>
-              <strong>{student?.email}</strong>
+              <strong>{patient?.email}</strong>
             </div>
             <div className="detail-row">
-              <span>Course</span>
-              <strong>{student?.course}</strong>
+              <span>Medical Condition</span>
+              <strong>{patient?.condition}</strong>
             </div>
           </article>
 
@@ -168,24 +168,24 @@ const DashboardPage = () => {
             </button>
           </form>
 
-          <form className="dashboard-card" onSubmit={handleCourseSubmit}>
-            <h2>Change Course</h2>
+          <form className="dashboard-card" onSubmit={handleConditionSubmit}>
+            <h2>Update Condition</h2>
             <label>
-              <span>Course</span>
+              <span>Medical Condition</span>
               <input
                 type="text"
-                name="course"
-                placeholder="Enter updated course"
-                value={courseForm.course}
-                onChange={handleCourseChange}
+                name="condition"
+                placeholder="Enter updated condition"
+                value={conditionForm.condition}
+                onChange={handleConditionChange}
                 required
               />
             </label>
 
-            {courseMessage ? <p className="message success">{courseMessage}</p> : null}
+            {conditionMessage ? <p className="message success">{conditionMessage}</p> : null}
 
             <button type="submit" className="primary-btn">
-              Update Course
+              Update Condition
             </button>
           </form>
         </div>

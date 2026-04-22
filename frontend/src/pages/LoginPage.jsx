@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   getErrorMessage,
   getToken,
-  loginStudent,
+  loginPatient,
   setToken,
 } from "../services/authService";
 
@@ -33,7 +33,7 @@ const LoginPage = () => {
     setIsLoading(true);
 
     try {
-      const data = await loginStudent(formData);
+      const data = await loginPatient(formData);
       setToken(data.token);
       navigate("/dashboard", { replace: true });
     } catch (apiError) {
@@ -48,10 +48,10 @@ const LoginPage = () => {
       <section className="auth-panel">
         <div className="brand-block">
           <p className="eyebrow">MERN Stack Project</p>
-          <h1>Student Authentication System</h1>
+          <h1>Patient Authentication System</h1>
           <p className="support-text">
-            Sign in to access your protected dashboard, update your password, and manage
-            your current course.
+            Sign in to access the protected patient dashboard, update your password,
+            and manage the current medical condition.
           </p>
         </div>
 
