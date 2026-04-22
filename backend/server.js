@@ -39,10 +39,24 @@ const isAllowedVercelOrigin = (origin) => {
   }
 };
 
+const isAllowedRenderOrigin = (origin) => {
+  try {
+    const url = new URL(origin);
+    return url.protocol === "https:" && url.hostname.endsWith(".onrender.com");
+  } catch (error) {
+    return false;
+  }
+};
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin) || isAllowedVercelOrigin(origin)) {
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        isAllowedVercelOrigin(origin) ||
+        isAllowedRenderOrigin(origin)
+      ) {
         return callback(null, true);
       }
 
