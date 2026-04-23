@@ -10,7 +10,7 @@ import {
 
 const DashboardPage = () => {
   const navigate = useNavigate();
-  const [patient, setPatient] = useState(null);
+  const [Student, setPatient] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [pageError, setPageError] = useState("");
   const [passwordForm, setPasswordForm] = useState({
@@ -27,8 +27,8 @@ const DashboardPage = () => {
     const loadProfile = async () => {
       try {
         const data = await fetchProfile();
-        setPatient(data.patient);
-        setConditionForm({ condition: data.patient.condition });
+        setPatient(data.Student);
+        setConditionForm({ condition: data.Student.condition });
       } catch (apiError) {
         setPageError(getErrorMessage(apiError));
 
@@ -75,7 +75,7 @@ const DashboardPage = () => {
 
     try {
       const data = await updateCondition(conditionForm);
-      setPatient(data.patient);
+      setPatient(data.Student);
       setConditionMessage(data.message);
     } catch (apiError) {
       setPageError(getErrorMessage(apiError));
@@ -92,7 +92,7 @@ const DashboardPage = () => {
       <main className="page-shell">
         <section className="dashboard-shell">
           <div className="dashboard-card">
-            <p>Loading patient dashboard...</p>
+            <p>Loading Student dashboard...</p>
           </div>
         </section>
       </main>
@@ -105,9 +105,9 @@ const DashboardPage = () => {
         <div className="dashboard-header">
           <div>
             <p className="eyebrow">Protected Dashboard</p>
-            <h1>Welcome, {patient?.name}</h1>
+            <h1>Welcome, {Student?.name}</h1>
             <p className="support-text">
-              View patient details, update your password, update the medical
+              View Student details, update your password, update the medical
               condition, and logout securely.
             </p>
           </div>
@@ -123,15 +123,15 @@ const DashboardPage = () => {
             <h2>Patient Details</h2>
             <div className="detail-row">
               <span>Name</span>
-              <strong>{patient?.name}</strong>
+              <strong>{Student?.name}</strong>
             </div>
             <div className="detail-row">
               <span>Email</span>
-              <strong>{patient?.email}</strong>
+              <strong>{Student?.email}</strong>
             </div>
             <div className="detail-row">
               <span>Medical Condition</span>
-              <strong>{patient?.condition}</strong>
+              <strong>{Student?.condition}</strong>
             </div>
           </article>
 

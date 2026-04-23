@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const patientSchema = new mongoose.Schema(
+const studentSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -30,6 +30,6 @@ const patientSchema = new mongoose.Schema(
   }
 );
 
-const Patient = mongoose.model("Patient", patientSchema);
+const Student = mongoose.model("Student", studentSchema);
 
-export default Patient;
+export default Student;

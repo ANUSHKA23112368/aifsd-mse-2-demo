@@ -15,7 +15,7 @@ const AppHeader = () => {
     <header className="app-header">
       <div className="app-header__inner">
         <NavLink to="/" className="brand-link">
-          Patient Auth System
+          Student Grievance Addressal
         </NavLink>
 
         <nav className="nav-links" aria-label="Main navigation">
@@ -38,6 +38,13 @@ const AppHeader = () => {
             }
           >
             Dashboard
+          </NavLink>
+
+          <NavLink
+            to="/grievances"
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`.trim()}
+          >
+            Grievances
           </NavLink>
 
           {isAuthenticated ? (

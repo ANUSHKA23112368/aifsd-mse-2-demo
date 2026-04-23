@@ -5,6 +5,7 @@ import DashboardPage from "./pages/DashboardPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AppHeader from "./components/AppHeader";
 import { getToken } from "./services/authService";
+import GrievancesPage from "./pages/GrievancesPage";
 
 const App = () => {
   const isAuthenticated = Boolean(getToken());
@@ -24,6 +25,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/grievances"
+          element={
+            <ProtectedRoute>
+              <GrievancesPage />
             </ProtectedRoute>
           }
         />

@@ -48,10 +48,11 @@ const LoginPage = () => {
       <section className="auth-panel">
         <div className="brand-block">
           <p className="eyebrow">MERN Stack Project</p>
-          <h1>Patient Authentication System</h1>
+          <h1>Student Grievance System</h1>
+
           <p className="support-text">
-            Sign in to access the protected patient dashboard, update your password,
-            and manage the current medical condition.
+            Sign in to access the protected student grievance dashboard, update your password,
+            and manage the current grievance submissions.
           </p>
         </div>
 

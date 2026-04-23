@@ -1,4 +1,4 @@
-export const JWT_SECRET = process.env.JWT_SECRET || "patient-auth-demo-secret";
+export const JWT_SECRET = process.env.JWT_SECRET || "Student-auth-demo-secret";
 
 export const getJwtWarning = () => {
   if (process.env.JWT_SECRET) {

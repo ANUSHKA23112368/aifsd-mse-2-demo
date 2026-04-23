@@ -2,96 +2,33 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
-import { getJwtWarning } from "./config/auth.js";
-import patientRoutes from "./routes/patientRoutes.js";
+import StudentRoutes from "./routes/StudentRoutes.js";
+import grievanceRoutes from "./routes/grievanceRoutes.js";
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-const normalizeOrigin = (value) => {
-  if (!value) {
-    return null;
-  }
-
-  try {
-    return new URL(value).origin;
-  } catch (error) {
-    return value.replace(/\/+$/, "");
-  }
-};
-
-const allowedOrigins = [
-  process.env.CLIENT_URL,
-  "http://localhost:5173",
-  "http://127.0.0.1:5173",
-]
-  .map(normalizeOrigin)
-  .filter(Boolean);
-
-const isAllowedVercelOrigin = (origin) => {
-  try {
-    const url = new URL(origin);
-    return url.protocol === "https:" && url.hostname.endsWith(".vercel.app");
-  } catch (error) {
-    return false;
-  }
-};
-
-const isAllowedRenderOrigin = (origin) => {
-  try {
-    const url = new URL(origin);
-    return url.protocol === "https:" && url.hostname.endsWith(".onrender.com");
-  } catch (error) {
-    return false;
-  }
-};
-
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (
-        !origin ||
-        allowedOrigins.includes(origin) ||
-        isAllowedVercelOrigin(origin) ||
-        isAllowedRenderOrigin(origin)
-      ) {
-        return callback(null, true);
-      }
-
-      return callback(new Error("Origin not allowed by CORS."));
-    },
-  })
-);
+// Middleware
+app.use(cors());
 app.use(express.json());
 
+// Routes
 app.get("/", (req, res) => {
-  res.json({ message: "Patient Authentication API is running." });
+  res.json({ message: "API is running..." });
 });
 
-app.use("/api", patientRoutes);
+app.use("/api", StudentRoutes);
+app.use("/api/grievance", grievanceRoutes);
 
-app.use((error, req, res, next) => {
-  if (error.message === "Origin not allowed by CORS.") {
-    return res.status(403).json({ message: error.message });
-  }
-
-  return res.status(500).json({ message: "Internal server error." });
-});
-
+// Start server
 connectDB()
   .then(() => {
-    const jwtWarning = getJwtWarning();
-
-    if (jwtWarning) {
-      console.warn(jwtWarning);
-    }
-
     app.listen(port, () => {
-      console.log(`Server running on port ${port}.`);
+      console.log(`Server running on port ${port}`);
     });
   })
-  .catch((error) => {
-    console.error("Failed to start server:", error.message);
+  .catch((err) => {
+    console.error("DB error:", err.message);
   });

@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import Patient from "../models/Patient.js";
+import Student from "../models/Student.js";
 import { JWT_SECRET } from "../config/auth.js";
 
 const authMiddleware = async (req, res, next) => {
@@ -13,13 +13,13 @@ const authMiddleware = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    const patient = await Patient.findById(decoded.id).select("-password");
+    const Student = await Student.findById(decoded.id).select("-password");
 
-    if (!patient) {
+    if (!Student) {
       return res.status(401).json({ message: "Unauthorized access. User not found." });
     }
 
-    req.patient = patient;
+    req.Student = Student;
     next();
   } catch (error) {
     return res.status(401).json({ message: "Unauthorized access. Invalid token." });

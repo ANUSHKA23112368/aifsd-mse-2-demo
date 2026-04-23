@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   getErrorMessage,
   getToken,
-  registerPatient,
+  registerStudent,
   setToken,
 } from "../services/authService";
 
@@ -55,7 +55,7 @@ const RegisterPage = () => {
           <p className="eyebrow">Create Account</p>
           <h1>Register as a Patient</h1>
           <p className="support-text">
-            Fill in your details to create a patient account and access the dashboard.
+            Fill in your details to create a Student account and access the dashboard.
           </p>
         </div>
 
@@ -102,7 +102,7 @@ const RegisterPage = () => {
             <input
               type="text"
               name="condition"
-              placeholder="Enter the patient's condition"
+              placeholder="Enter the Student's condition"
               value={formData.condition}
               onChange={handleChange}
               required
